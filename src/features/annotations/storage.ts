@@ -7,26 +7,23 @@ function storageKey(topicSlug: string) {
 export function loadTopicAnnotations(topicSlug: string): TopicAnnotations {
   const raw = localStorage.getItem(storageKey(topicSlug));
   if (!raw) {
-    return { highlights: [], strokes: [] };
+    return { strokes: [] };
   }
 
   try {
     const parsed = JSON.parse(raw) as unknown;
     if (!parsed || typeof parsed !== "object") {
-      return { highlights: [], strokes: [] };
+      return { strokes: [] };
     }
 
     const obj = parsed as Partial<TopicAnnotations>;
     return {
-      highlights: Array.isArray(obj.highlights)
-        ? (obj.highlights as TopicAnnotations["highlights"])
-        : [],
       strokes: Array.isArray(obj.strokes)
         ? (obj.strokes as TopicAnnotations["strokes"])
         : [],
     };
   } catch {
-    return { highlights: [], strokes: [] };
+    return { strokes: [] };
   }
 }
 

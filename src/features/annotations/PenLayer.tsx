@@ -24,11 +24,14 @@ function distance(a: Point, b: Point) {
 export function PenLayer(props: {
   containerRef: React.RefObject<HTMLElement | null>
   mode: AnnotationMode
+  zoom?: number
   strokes: Stroke[]
   setStrokes: (next: Stroke[]) => void
 }) {
   const [size, setSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 })
   const drawingStrokeId = useRef<string | null>(null)
+
+  const zoom = props.zoom && Number.isFinite(props.zoom) ? props.zoom : 1
 
   const pointerEnabled = props.mode === 'pen' || props.mode === 'erase'
 
@@ -37,7 +40,9 @@ export function PenLayer(props: {
     if (!el) return
 
     const update = () => {
-      setSize({ width: el.clientWidth, height: el.scrollHeight })
+      const width = Math.max(1, el.clientWidth)
+      const height = Math.max(1, el.clientHeight)
+      setSize({ width, height })
     }
 
     update()
@@ -60,13 +65,13 @@ export function PenLayer(props: {
 
     const rect = container.getBoundingClientRect()
     return {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
+      x: (event.clientX - rect.left) / zoom,
+      y: (event.clientY - rect.top) / zoom,
     }
   }
 
   const eraseAt = (p: Point) => {
-    const threshold = 14
+    const threshold = 14 / zoom
     const hit = props.strokes.find((s) => s.points.some((pt) => distance(pt, p) <= threshold))
     if (!hit) return
     props.setStrokes(props.strokes.filter((s) => s.id !== hit.id))
@@ -86,7 +91,7 @@ export function PenLayer(props: {
     const id = uid('st')
     drawingStrokeId.current = id
 
-    props.setStrokes([...props.strokes, { id, points: [p], width: 3 }])
+    props.setStrokes([...props.strokes, { id, points: [p], width: 3 / zoom }])
     event.currentTarget.setPointerCapture(event.pointerId)
   }
 

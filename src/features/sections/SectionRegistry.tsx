@@ -21,6 +21,16 @@ type SectionRegistryApi = {
 
 const SectionRegistryContext = createContext<SectionRegistryApi | null>(null)
 
+const noopRegistry: SectionRegistryApi = {
+  sections: [],
+  registerSection: () => {
+    // no-op
+  },
+  clearSections: () => {
+    // no-op
+  },
+}
+
 export function SectionRegistryProvider(props: { children: ReactNode }) {
   const [sections, setSections] = useState<SectionNavItem[]>([])
 
@@ -58,8 +68,5 @@ export function SectionRegistryProvider(props: { children: ReactNode }) {
 
 export function useSectionRegistry(): SectionRegistryApi {
   const ctx = useContext(SectionRegistryContext)
-  if (!ctx) {
-    throw new Error('useSectionRegistry must be used within SectionRegistryProvider')
-  }
-  return ctx
+  return ctx ?? noopRegistry
 }

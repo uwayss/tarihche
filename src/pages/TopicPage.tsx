@@ -1,65 +1,15 @@
 import { MDXProvider } from '@mdx-js/react'
-import { useEffect, useMemo, useRef, useState, type ComponentType, type MouseEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type ComponentType } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { mdxComponents } from '../components/mdx/mdxComponents'
-import { getTopicBySlug, getUnitsWithTopics } from '../content/catalog'
-import { AnnotationToolbar } from '../features/annotations/AnnotationToolbar'
-import { addHighlight, applyHighlights, selectionToOffsets } from '../features/annotations/highlighting'
+import { getTopicBySlug, getTopicNeighbors } from '../content/catalog'
 import { PenLayer } from '../features/annotations/PenLayer'
 import { loadTopicAnnotations, saveTopicAnnotations } from '../features/annotations/storage'
 import type { AnnotationMode, TopicAnnotations } from '../features/annotations/types'
-import { SectionRegistryProvider, useSectionRegistry } from '../features/sections/SectionRegistry'
-import { Shell } from '../layout/Shell'
-
-function SectionsNav(props: { activeId: string | null }) {
-  const { sections } = useSectionRegistry()
-
-  return (
-    <nav className="tc-sectionsNav">
-      <div className="tc-sectionsTitle">Sections</div>
-      <ul className="tc-sectionsList">
-        {sections.map((s) => (
-          <li key={s.id} className={props.activeId === s.id ? 'tc-sectionsItem tc-sectionsItemActive' : 'tc-sectionsItem'}>
-            <a className="tc-link" href={`#${s.id}`}>
-              {s.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  )
-}
-
-function LeftNav(props: { currentSlug: string }) {
-  const units = getUnitsWithTopics()
-
-  return (
-    <nav className="tc-leftNav">
-      <div className="tc-leftHeader">
-        <Link to="/" className="tc-link">
-          Tarihche
-        </Link>
-      </div>
-      {units.map((u) => (
-        <section key={u.id} className="tc-leftUnit">
-          <div className="tc-leftUnitTitle">{u.title}</div>
-          <ul className="tc-leftTopicList">
-            {u.topics.map((t) => (
-              <li key={t.slug}>
-                <Link
-                  to={`/topic/${t.slug}`}
-                  className={t.slug === props.currentSlug ? 'tc-leftTopic tc-leftTopicActive' : 'tc-leftTopic'}
-                >
-                  {t.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
-    </nav>
-  )
-}
+import { toggleFullscreen } from '../features/reader/fullscreen'
+import { ToolSidebar } from '../features/reader/ToolSidebar'
+import { useZoom } from '../features/reader/useZoom'
+import { ReaderLayout } from '../layout/ReaderLayout'
 
 export default function TopicPage() {
   const { slug = '' } = useParams()
@@ -68,9 +18,9 @@ export default function TopicPage() {
   if (!topic) {
     return (
       <div className="tc-missing">
-        <p>Topic not found.</p>
+        <p>Konu bulunamadı.</p>
         <Link to="/" className="tc-link">
-          Go home
+          Başlangıca dön
         </Link>
       </div>
     )
@@ -87,16 +37,17 @@ function TopicPageInner(props: {
   const topic = props
 
   const [Mdx, setMdx] = useState<null | ComponentType<{ components?: Record<string, unknown> }>>(null)
-  const [readingMode, setReadingMode] = useState(false)
 
   const articleRef = useRef<HTMLElement | null>(null)
-  const contentRef = useRef<HTMLDivElement | null>(null)
+  const contentAreaRef = useRef<HTMLDivElement | null>(null)
   const articleWrapRef = useRef<HTMLDivElement | null>(null)
+  const zoomWrapRef = useRef<HTMLDivElement | null>(null)
 
   const [mode, setMode] = useState<AnnotationMode>('off')
   const [annotations, setAnnotations] = useState<TopicAnnotations>(() => loadTopicAnnotations(topic.topicSlug))
 
-  const [activeSectionId, setActiveSectionId] = useState<string | null>(null)
+  const { zoom, zoomIn, zoomOut } = useZoom()
+  const neighbors = useMemo(() => getTopicNeighbors(topic.topicSlug), [topic.topicSlug])
 
   useEffect(() => {
     let cancelled = false
@@ -120,122 +71,89 @@ function TopicPageInner(props: {
     saveTopicAnnotations(topic.topicSlug, annotations)
   }, [topic, annotations])
 
-  useEffect(() => {
-    const el = articleRef.current
-    if (!el) return
-    applyHighlights(el, annotations.highlights)
-  }, [annotations.highlights, Mdx])
-
-  useEffect(() => {
-    const root = contentRef.current
-    if (!root) return
-
-    const sectionEls = Array.from(root.querySelectorAll<HTMLElement>('[data-section-id]'))
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting)
-        if (visible.length === 0) return
-
-        visible.sort((a, b) => (a.boundingClientRect.top ?? 0) - (b.boundingClientRect.top ?? 0))
-        const first = visible[0].target as HTMLElement
-        const id = first.dataset.sectionId
-        if (id) setActiveSectionId(id)
-      },
-      { root: null, rootMargin: '-20% 0px -70% 0px', threshold: [0, 1] },
-    )
-
-    for (const el of sectionEls) observer.observe(el)
-
-    return () => {
-      observer.disconnect()
+  const onToggleFullscreen = async () => {
+    try {
+      await toggleFullscreen()
+    } catch {
+      // ignore
     }
-  }, [Mdx])
-
-  const onMouseUp = () => {
-    if (mode !== 'highlight') return
-    const container = articleRef.current
-    if (!container) return
-
-    const offsets = selectionToOffsets(container)
-    if (!offsets) return
-
-    setAnnotations((prev) => ({
-      ...prev,
-      highlights: addHighlight(prev.highlights, offsets.start, offsets.end),
-    }))
-
-    window.getSelection()?.removeAllRanges()
-  }
-
-  const onClickCapture = (event: MouseEvent) => {
-    if (mode !== 'erase') return
-
-    const container = articleRef.current
-    if (!container) return
-
-    const target = event.target as HTMLElement | null
-    const mark = target?.closest('mark[data-highlight-id]') as HTMLElement | null
-    if (!mark?.dataset.highlightId) return
-
-    const id = mark.dataset.highlightId
-    setAnnotations((prev) => ({
-      ...prev,
-      highlights: prev.highlights.filter((h) => h.id !== id),
-    }))
   }
 
   const clear = () => {
-    setAnnotations({ highlights: [], strokes: [] })
+    setAnnotations({ strokes: [] })
     setMode('off')
   }
 
   return (
-    <SectionRegistryProvider>
-      <Shell
-        left={<LeftNav currentSlug={topic.topicSlug} />}
-        right={<SectionsNav activeId={activeSectionId} />}
-        readingMode={readingMode}
-      >
-        <div className="tc-topicHeader">
-          <h1 className="tc-topicTitle">{topic.topicTitle}</h1>
-          <div className="tc-topicControls">
-            <button
-              type="button"
-              className={readingMode ? 'tc-btn tc-btnActive' : 'tc-btn'}
-              onClick={() => setReadingMode((v) => !v)}
-            >
-              Reading mode
-            </button>
+    <ReaderLayout
+      topBar={
+        <div className="tc-topbarInner">
+          <div className="tc-topbarLeft">
+            <Link to="/" className="tc-topbarBrand" aria-label="Tarihche">
+              Tarihche
+            </Link>
           </div>
-        </div>
-
-        <AnnotationToolbar mode={mode} setMode={setMode} onClear={clear} />
-
-        <div
-          ref={contentRef}
-          className={mode === 'pen' || mode === 'erase' ? 'tc-content tc-contentAnnotating' : 'tc-content'}
-        >
-          <div ref={articleWrapRef} className="tc-articleWrap">
-            <article
-              ref={articleRef}
-              className="tc-article"
-              onMouseUp={onMouseUp}
-              onClickCapture={onClickCapture}
+          <div className="tc-topbarCenter">
+            <Link
+              to={neighbors.prev ? `/topic/${neighbors.prev.slug}` : '#'}
+              className={neighbors.prev ? 'tc-topbarNavBtn' : 'tc-topbarNavBtn tc-topbarNavBtnDisabled'}
+              aria-disabled={!neighbors.prev}
+              onClick={(e) => {
+                if (!neighbors.prev) e.preventDefault()
+              }}
             >
+              Önceki
+            </Link>
+            <div className="tc-topbarTitle" title={topic.topicTitle}>
+              {topic.topicTitle}
+            </div>
+            <Link
+              to={neighbors.next ? `/topic/${neighbors.next.slug}` : '#'}
+              className={neighbors.next ? 'tc-topbarNavBtn' : 'tc-topbarNavBtn tc-topbarNavBtnDisabled'}
+              aria-disabled={!neighbors.next}
+              onClick={(e) => {
+                if (!neighbors.next) e.preventDefault()
+              }}
+            >
+              Sonraki
+            </Link>
+          </div>
+          <div className="tc-topbarRight" />
+        </div>
+      }
+      toolBar={
+        <ToolSidebar
+          mode={mode}
+          setMode={setMode}
+          onClear={clear}
+          onZoomIn={zoomIn}
+          onZoomOut={zoomOut}
+          onToggleFullscreen={onToggleFullscreen}
+        />
+      }
+    >
+      <div
+        ref={contentAreaRef}
+        className={mode === 'pen' || mode === 'erase' ? 'tc-content tc-contentAnnotating' : 'tc-content'}
+      >
+        <div ref={zoomWrapRef} className="tc-zoomWrap">
+          <div ref={articleWrapRef} className="tc-articleWrap">
+            <article ref={articleRef} className="tc-article">
               <MDXProvider components={mdxComponents}>
-                {Mdx ? <Mdx components={mdxComponents} /> : <p>Loading…</p>}
+                {Mdx ? <Mdx components={mdxComponents} /> : <p>Yükleniyor…</p>}
               </MDXProvider>
             </article>
-            <PenLayer
-              containerRef={articleWrapRef}
-              mode={mode}
-              strokes={annotations.strokes}
-              setStrokes={(strokes) => setAnnotations((prev) => ({ ...prev, strokes }))}
-            />
           </div>
+
+          <PenLayer
+            containerRef={zoomWrapRef}
+            mode={mode}
+            zoom={zoom}
+            strokes={annotations.strokes}
+            setStrokes={(strokes) => setAnnotations((prev) => ({ ...prev, strokes }))}
+          />
         </div>
-      </Shell>
-    </SectionRegistryProvider>
+      </div>
+    </ReaderLayout>
   )
 }
