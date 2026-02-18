@@ -1,75 +1,11 @@
-# React + TypeScript + Vite
+# Tarihche
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The project is a statically deployed, content-driven educational web application built with a lightweight Vite + React (TS) setup and hosted on Vercel. The primary goal is to transform a traditional linear textbook into a modular, structured, and highly navigable learning experience. Content and presentation are strictly separated: raw educational material is stored in a portable format (MDX or structured data), while rendering logic is handled by a composable component system. This enables long-term maintainability, fast iteration, and consistent layout across all topics.
 
-Currently, two official plugins are available:
+Content is organized into semantic sections rather than continuous text. Each section is rendered through reusable layout components that accept rich children, allowing the insertion of custom educational elements such as note boxes, timelines, highlighted key terms, cause-effect blocks, media, and interactive widgets. The architecture must allow inline usage of these components inside the content layer so that emphasis, visual hierarchy, and pedagogical enhancements are defined at the content level without tightly coupling text to page layouts.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The platform includes usability features that improve comprehension and classroom practicality: collapsible sections for progressive disclosure, built-in highlighting/pen annotations for live teaching, fast navigation, and a clean reading mode suitable for projection. All functionality must remain client-side and static-host compatible, avoiding a backend unless absolutely necessary. Performance, typography, and clarity take priority over visual complexity.
 
-## React Compiler
+The content production workflow is AI-assisted. Large language models are used programmatically with a strict prompting pipeline to generate structured, curriculum-aligned summaries that fit the platform’s component schema. The system should make it easy to regenerate or update content without changing the rendering logic.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The end result is not a simple summary, but a reusable, extensible study interface that can function both as a personal learning tool and as a classroom presentation resource.
