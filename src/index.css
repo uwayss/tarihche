@@ -225,6 +225,82 @@ a {
   pointer-events: auto;
 }
 
+/* TOC */
+.tc-toc {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.tc-tocLast {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 0.9rem 1rem;
+  margin: 0.6rem 0 1rem;
+}
+
+.tc-tocLastLabel {
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.tc-tocLastBtn {
+  margin-top: 0.35rem;
+  width: 100%;
+  text-align: left;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  background: #fafafa;
+  padding: 0.75rem 0.85rem;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+.tc-tocUnits {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.tc-tocUnit {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.tc-tocUnitTitle {
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  background: #fafafa;
+  font-weight: 800;
+}
+
+.tc-tocTopicList {
+  list-style: none;
+  padding: 0.35rem;
+  margin: 0;
+}
+
+.tc-tocTopic {
+  display: block;
+  padding: 0.8rem 0.9rem;
+  border-radius: 12px;
+}
+
+.tc-tocTopic:hover {
+  background: #f3f4f6;
+}
+
+.tc-tocTopicActive {
+  background: #e5e7eb;
+  font-weight: 800;
+}
+
+.tc-readerBodyNoTools {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 
 @media (max-width: 720px) {
   .tc-readerBody {
@@ -239,21 +315,28 @@ a {
 }
 
 .tc-section {
-  margin: 1rem 0;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  overflow: hidden;
+  margin: 1.35rem 0;
 }
 
-.tc-sectionSummary {
-  padding: 0.75rem 0.9rem;
-  cursor: pointer;
-  background: #fafafa;
-  font-weight: 700;
+.tc-sectionHeader {
+  margin: 0 0 0.75rem;
+}
+
+.tc-sectionTitle {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.tc-hairline {
+  height: 1px;
+  background: #e5e7eb;
+  margin-top: 0.45rem;
 }
 
 .tc-sectionBody {
-  padding: 0.25rem 0.9rem 0.9rem;
+  padding: 0;
 }
 
 .tc-noteBox {

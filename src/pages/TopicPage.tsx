@@ -11,6 +11,8 @@ import { ToolSidebar } from '../features/reader/ToolSidebar'
 import { useZoom } from '../features/reader/useZoom'
 import { ReaderLayout } from '../layout/ReaderLayout'
 
+const lastTopicKey = 'tarihche:lastTopic'
+
 export default function TopicPage() {
   const { slug = '' } = useParams()
   const topic = useMemo(() => getTopicBySlug(slug), [slug])
@@ -68,6 +70,14 @@ function TopicPageInner(props: {
   }, [topic])
 
   useEffect(() => {
+    try {
+      localStorage.setItem(lastTopicKey, topic.topicSlug)
+    } catch {
+      // ignore
+    }
+  }, [topic.topicSlug])
+
+  useEffect(() => {
     saveTopicAnnotations(topic.topicSlug, annotations)
   }, [topic, annotations])
 
@@ -89,7 +99,7 @@ function TopicPageInner(props: {
       topBar={
         <div className="tc-topbarInner">
           <div className="tc-topbarLeft">
-            <Link to="/" className="tc-topbarBrand" aria-label="Tarihche">
+            <Link to="/toc" className="tc-topbarBrand" aria-label="İçindekiler">
               Tarihche
             </Link>
           </div>

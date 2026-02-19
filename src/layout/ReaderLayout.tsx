@@ -2,17 +2,21 @@ import type { ReactNode } from 'react'
 
 export function ReaderLayout(props: {
   topBar: ReactNode
-  toolBar: ReactNode
+  toolBar?: ReactNode
   children: ReactNode
 }) {
+  const showTools = props.toolBar !== undefined && props.toolBar !== null
+
   return (
     <div className="tc-reader">
       <header className="tc-topbar">{props.topBar}</header>
-      <div className="tc-readerBody">
+      <div className={showTools ? 'tc-readerBody' : 'tc-readerBody tc-readerBodyNoTools'}>
         <main className="tc-readerMain">{props.children}</main>
-        <aside className="tc-tools" aria-label="Araçlar">
-          {props.toolBar}
-        </aside>
+        {showTools ? (
+          <aside className="tc-tools" aria-label="Araçlar">
+            {props.toolBar}
+          </aside>
+        ) : null}
       </div>
     </div>
   )

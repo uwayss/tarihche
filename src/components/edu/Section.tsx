@@ -5,7 +5,6 @@ import { slugify } from '../../utils/slugify'
 export function Section(props: {
   id?: string
   title: string
-  defaultOpen?: boolean
   children: ReactNode
 }) {
   const { registerSection } = useSectionRegistry()
@@ -20,10 +19,11 @@ export function Section(props: {
 
   return (
     <section id={sectionId} data-section-id={sectionId} className="tc-section">
-      <details className="tc-sectionDetails" open={props.defaultOpen}>
-        <summary className="tc-sectionSummary">{props.title}</summary>
-        <div className="tc-sectionBody">{props.children}</div>
-      </details>
+      <header className="tc-sectionHeader">
+        <h2 className="tc-sectionTitle">{props.title}</h2>
+        <div className="tc-hairline" aria-hidden="true" />
+      </header>
+      <div className="tc-sectionBody">{props.children}</div>
     </section>
   )
 }
