@@ -9,7 +9,10 @@ export function Shell(props: {
   return (
     <div className="flex h-full w-full overflow-hidden bg-slate-50">
       {!props.readingMode && props.left && (
-        <aside className="flex-none w-80 border-r border-slate-200 bg-white overflow-y-auto" aria-label="Navigation">
+        <aside
+          className="flex-none w-80 border-r border-slate-200 bg-white overflow-y-auto"
+          aria-label="Navigation"
+        >
           {props.left}
         </aside>
       )}
@@ -17,7 +20,10 @@ export function Shell(props: {
         {props.children}
       </main>
       {!props.readingMode && props.right && (
-        <aside className="flex-none w-72 border-l border-slate-200 bg-white overflow-y-auto" aria-label="Sections">
+        <aside
+          className="flex-none w-72 border-l border-slate-200 bg-white overflow-y-auto"
+          aria-label="Sections"
+        >
           {props.right}
         </aside>
       )}

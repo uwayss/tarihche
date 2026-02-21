@@ -131,7 +131,9 @@ export function PenLayer(props: {
   return (
     <svg
       className={`absolute inset-0 w-full h-full z-10 ${
-        pointerEnabled ? 'pointer-events-auto cursor-crosshair' : 'pointer-events-none'
+        pointerEnabled
+          ? 'pointer-events-auto cursor-crosshair'
+          : 'pointer-events-none'
       }`}
       width={size.width}
       height={size.height}

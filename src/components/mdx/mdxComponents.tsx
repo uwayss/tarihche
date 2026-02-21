@@ -13,14 +13,56 @@ export const mdxComponents = {
   Timeline,
   TimelineItem,
   Media,
-  h1: (props: any) => <h1 className="text-5xl font-black text-slate-900 mt-12 mb-8 tracking-tight font-serif" {...props} />,
-  h2: (props: any) => <h2 className="text-3xl font-bold text-slate-800 mt-12 mb-6 tracking-tight border-b-2 border-slate-200 pb-3 font-serif" {...props} />,
-  h3: (props: any) => <h3 className="text-2xl font-bold text-slate-800 mt-8 mb-4 font-serif" {...props} />,
-  p: (props: any) => <p className="text-xl leading-relaxed text-slate-800 mb-6 font-serif" {...props} />,
-  ul: (props: any) => <ul className="list-disc list-outside ml-8 mb-6 text-xl text-slate-800 space-y-3 font-serif" {...props} />,
-  ol: (props: any) => <ol className="list-decimal list-outside ml-8 mb-6 text-xl text-slate-800 space-y-3 font-serif" {...props} />,
+  h1: (props: any) => (
+    <h1
+      className="text-5xl font-black text-slate-900 mt-12 mb-8 tracking-tight font-serif"
+      {...props}
+    />
+  ),
+  h2: (props: any) => (
+    <h2
+      className="text-3xl font-bold text-slate-800 mt-12 mb-6 tracking-tight border-b-2 border-slate-200 pb-3 font-serif"
+      {...props}
+    />
+  ),
+  h3: (props: any) => (
+    <h3
+      className="text-2xl font-bold text-slate-800 mt-8 mb-4 font-serif"
+      {...props}
+    />
+  ),
+  p: (props: any) => (
+    <p
+      className="text-xl leading-relaxed text-slate-800 mb-6 font-serif"
+      {...props}
+    />
+  ),
+  ul: (props: any) => (
+    <ul
+      className="list-disc list-outside ml-8 mb-6 text-xl text-slate-800 space-y-3 font-serif"
+      {...props}
+    />
+  ),
+  ol: (props: any) => (
+    <ol
+      className="list-decimal list-outside ml-8 mb-6 text-xl text-slate-800 space-y-3 font-serif"
+      {...props}
+    />
+  ),
   li: (props: any) => <li className="pl-2" {...props} />,
-  blockquote: (props: any) => <blockquote className="border-l-4 border-amber-400 bg-amber-50/50 p-6 italic text-slate-700 my-8 text-xl font-serif rounded-r-xl" {...props} />,
-  a: (props: any) => <a className="text-indigo-700 hover:text-indigo-900 underline decoration-indigo-300 underline-offset-4 transition-colors font-semibold" {...props} />,
-  strong: (props: any) => <strong className="font-bold text-slate-900" {...props} />,
+  blockquote: (props: any) => (
+    <blockquote
+      className="border-l-4 border-amber-400 bg-amber-50/50 p-6 italic text-slate-700 my-8 text-xl font-serif rounded-r-xl"
+      {...props}
+    />
+  ),
+  a: (props: any) => (
+    <a
+      className="text-indigo-700 hover:text-indigo-900 underline decoration-indigo-300 underline-offset-4 transition-colors font-semibold"
+      {...props}
+    />
+  ),
+  strong: (props: any) => (
+    <strong className="font-bold text-slate-900" {...props} />
+  ),
 };

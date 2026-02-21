@@ -127,8 +127,14 @@ function TopicPageInner(props: {
       topBar={
         <div className="flex items-center justify-between w-full h-full">
           <div className="flex-none w-48">
-            <Link to="/toc" className="flex items-center gap-3 text-2xl font-black tracking-tighter text-slate-900 hover:text-indigo-700 transition-colors font-serif" aria-label="İçindekiler">
-              <span className="w-8 h-8 bg-slate-900 text-white rounded-sm flex items-center justify-center text-lg">T</span>
+            <Link
+              to="/toc"
+              className="flex items-center gap-3 text-2xl font-black tracking-tighter text-slate-900 hover:text-indigo-700 transition-colors font-serif"
+              aria-label="İçindekiler"
+            >
+              <span className="w-8 h-8 bg-slate-900 text-white rounded-sm flex items-center justify-center text-lg">
+                T
+              </span>
               Tarihche
             </Link>
           </div>
@@ -147,7 +153,10 @@ function TopicPageInner(props: {
             >
               ← Önceki
             </Link>
-            <div className="text-xl font-bold text-slate-800 truncate max-w-md font-serif border-b-2 border-slate-300 pb-1" title={topic.topicTitle}>
+            <div
+              className="text-xl font-bold text-slate-800 truncate max-w-md font-serif border-b-2 border-slate-300 pb-1"
+              title={topic.topicTitle}
+            >
               {topic.topicTitle}
             </div>
             <Link
@@ -185,15 +194,25 @@ function TopicPageInner(props: {
           mode === 'pen' || mode === 'erase' ? 'select-none' : ''
         }`}
       >
-        <div 
-          ref={zoomWrapRef} 
+        <div
+          ref={zoomWrapRef}
           className="relative min-h-full w-full flex justify-center py-16 px-4 sm:px-8 md:px-16 transition-transform duration-200 origin-top"
           style={{ transform: `scale(${zoom})` }}
         >
-          <div ref={articleWrapRef} className="w-full max-w-4xl bg-[#fffdfa] rounded-sm shadow-xl border border-slate-200 p-12 md:p-20 relative z-0 before:absolute before:inset-0 before:border-[12px] before:border-double before:border-slate-100/50 before:pointer-events-none before:rounded-sm">
-            <article ref={articleRef} className="prose prose-slate prose-lg max-w-none">
+          <div
+            ref={articleWrapRef}
+            className="w-full max-w-4xl bg-[#fffdfa] rounded-sm shadow-xl border border-slate-200 p-12 md:p-20 relative z-0 before:absolute before:inset-0 before:border-[12px] before:border-double before:border-slate-100/50 before:pointer-events-none before:rounded-sm"
+          >
+            <article
+              ref={articleRef}
+              className="prose prose-slate prose-lg max-w-none"
+            >
               <MDXProvider components={mdxComponents}>
-                {Mdx ? <Mdx components={mdxComponents} /> : <p className="text-slate-500 italic">Yükleniyor…</p>}
+                {Mdx ? (
+                  <Mdx components={mdxComponents} />
+                ) : (
+                  <p className="text-slate-500 italic">Yükleniyor…</p>
+                )}
               </MDXProvider>
             </article>
           </div>

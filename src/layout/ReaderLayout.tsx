@@ -17,7 +17,10 @@ export function ReaderLayout(props: {
           {props.children}
         </main>
         {showTools ? (
-          <aside className="flex-none w-24 border-l-4 border-double border-slate-800 bg-[#fdfbf7] z-10 flex flex-col items-center py-6 gap-4 shadow-[-4px_0_15px_rgba(0,0,0,0.05)]" aria-label="Araçlar">
+          <aside
+            className="flex-none w-24 border-l-4 border-double border-slate-800 bg-[#fdfbf7] z-10 flex flex-col items-center py-6 gap-4 shadow-[-4px_0_15px_rgba(0,0,0,0.05)]"
+            aria-label="Araçlar"
+          >
             {props.toolBar}
           </aside>
         ) : null}
