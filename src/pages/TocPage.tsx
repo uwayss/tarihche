@@ -1,27 +1,27 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { getUnitsWithTopics, getTopicBySlug } from '../content/catalog'
-import { ReaderLayout } from '../layout/ReaderLayout'
+import { Link, useNavigate } from 'react-router-dom';
+import { getUnitsWithTopics, getTopicBySlug } from '../content/catalog';
+import { ReaderLayout } from '../layout/ReaderLayout';
 
-const lastTopicKey = 'tarihche:lastTopic'
+const lastTopicKey = 'tarihche:lastTopic';
 
 function safeGetLastTopicSlug(): string {
   try {
-    return localStorage.getItem(lastTopicKey) ?? ''
+    return localStorage.getItem(lastTopicKey) ?? '';
   } catch {
-    return ''
+    return '';
   }
 }
 
 export default function TocPage() {
-  const navigate = useNavigate()
-  const units = getUnitsWithTopics()
-  const lastSlug = safeGetLastTopicSlug()
-  const lastTopic = lastSlug ? getTopicBySlug(lastSlug) : undefined
+  const navigate = useNavigate();
+  const units = getUnitsWithTopics();
+  const lastSlug = safeGetLastTopicSlug();
+  const lastTopic = lastSlug ? getTopicBySlug(lastSlug) : undefined;
 
   const goLast = () => {
-    if (!lastTopic) return
-    navigate(`/topic/${lastTopic.slug}`)
-  }
+    if (!lastTopic) return;
+    navigate(`/topic/${lastTopic.slug}`);
+  };
 
   return (
     <ReaderLayout
@@ -37,7 +37,11 @@ export default function TocPage() {
           </div>
           <div className="tc-topbarRight">
             {lastTopic ? (
-              <button type="button" className="tc-topbarNavBtn" onClick={goLast}>
+              <button
+                type="button"
+                className="tc-topbarNavBtn"
+                onClick={goLast}
+              >
                 Devam et
               </button>
             ) : null}
@@ -62,7 +66,14 @@ export default function TocPage() {
               <ul className="tc-tocTopicList">
                 {u.topics.map((t) => (
                   <li key={t.slug}>
-                    <Link className={t.slug === lastSlug ? 'tc-tocTopic tc-tocTopicActive' : 'tc-tocTopic'} to={`/topic/${t.slug}`}>
+                    <Link
+                      className={
+                        t.slug === lastSlug
+                          ? 'tc-tocTopic tc-tocTopicActive'
+                          : 'tc-tocTopic'
+                      }
+                      to={`/topic/${t.slug}`}
+                    >
                       {t.title}
                     </Link>
                   </li>
@@ -73,5 +84,5 @@ export default function TocPage() {
         </div>
       </div>
     </ReaderLayout>
-  )
+  );
 }

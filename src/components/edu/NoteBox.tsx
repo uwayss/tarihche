@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from 'react';
 
 export function NoteBox(props: { title?: string; children: ReactNode }) {
   return (
@@ -6,5 +6,5 @@ export function NoteBox(props: { title?: string; children: ReactNode }) {
       {props.title ? <div className="tc-noteTitle">{props.title}</div> : null}
       <div className="tc-noteBody">{props.children}</div>
     </aside>
-  )
+  );
 }

@@ -13,4 +13,4 @@ export type TopicAnnotations = {
   strokes: Stroke[];
 };
 
-export type AnnotationMode = "off" | "pen" | "erase";
+export type AnnotationMode = 'off' | 'pen' | 'erase';

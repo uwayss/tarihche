@@ -1,12 +1,12 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from 'react';
 
 export function Shell(props: {
-  left?: ReactNode
-  right?: ReactNode
-  children: ReactNode
-  readingMode?: boolean
+  left?: ReactNode;
+  right?: ReactNode;
+  children: ReactNode;
+  readingMode?: boolean;
 }) {
-  const cls = props.readingMode ? 'tc-shell tc-shellReading' : 'tc-shell'
+  const cls = props.readingMode ? 'tc-shell tc-shellReading' : 'tc-shell';
 
   return (
     <div className={cls}>
@@ -18,5 +18,5 @@ export function Shell(props: {
         {props.right}
       </aside>
     </div>
-  )
+  );
 }

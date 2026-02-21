@@ -1,4 +1,4 @@
-import type { TopicAnnotations } from "./types";
+import type { TopicAnnotations } from './types';
 
 function storageKey(topicSlug: string) {
   return `tarihche:annotations:${topicSlug}`;
@@ -12,14 +12,14 @@ export function loadTopicAnnotations(topicSlug: string): TopicAnnotations {
 
   try {
     const parsed = JSON.parse(raw) as unknown;
-    if (!parsed || typeof parsed !== "object") {
+    if (!parsed || typeof parsed !== 'object') {
       return { strokes: [] };
     }
 
     const obj = parsed as Partial<TopicAnnotations>;
     return {
       strokes: Array.isArray(obj.strokes)
-        ? (obj.strokes as TopicAnnotations["strokes"])
+        ? (obj.strokes as TopicAnnotations['strokes'])
         : [],
     };
   } catch {

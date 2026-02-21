@@ -6,5 +6,5 @@ export function KeyTerm(props: { term: string; definition?: string }) {
         <span className="tc-keyTermDef">{props.definition}</span>
       ) : null}
     </p>
-  )
+  );
 }

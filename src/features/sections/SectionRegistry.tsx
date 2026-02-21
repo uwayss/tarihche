@@ -6,20 +6,20 @@ import {
   useMemo,
   useState,
   type ReactNode,
-} from 'react'
+} from 'react';
 
 export type SectionNavItem = {
-  id: string
-  title: string
-}
+  id: string;
+  title: string;
+};
 
 type SectionRegistryApi = {
-  sections: SectionNavItem[]
-  registerSection: (item: SectionNavItem) => void
-  clearSections: () => void
-}
+  sections: SectionNavItem[];
+  registerSection: (item: SectionNavItem) => void;
+  clearSections: () => void;
+};
 
-const SectionRegistryContext = createContext<SectionRegistryApi | null>(null)
+const SectionRegistryContext = createContext<SectionRegistryApi | null>(null);
 
 const noopRegistry: SectionRegistryApi = {
   sections: [],
@@ -29,44 +29,44 @@ const noopRegistry: SectionRegistryApi = {
   clearSections: () => {
     // no-op
   },
-}
+};
 
 export function SectionRegistryProvider(props: { children: ReactNode }) {
-  const [sections, setSections] = useState<SectionNavItem[]>([])
+  const [sections, setSections] = useState<SectionNavItem[]>([]);
 
   const registerSection = useCallback((item: SectionNavItem) => {
     setSections((prev) => {
-      const existingIndex = prev.findIndex((s) => s.id === item.id)
+      const existingIndex = prev.findIndex((s) => s.id === item.id);
       if (existingIndex === -1) {
-        return [...prev, item]
+        return [...prev, item];
       }
 
-      const existing = prev[existingIndex]
-      if (existing.title === item.title) return prev
+      const existing = prev[existingIndex];
+      if (existing.title === item.title) return prev;
 
-      const next = [...prev]
-      next[existingIndex] = item
-      return next
-    })
-  }, [])
+      const next = [...prev];
+      next[existingIndex] = item;
+      return next;
+    });
+  }, []);
 
   const clearSections = useCallback(() => {
-    setSections([])
-  }, [])
+    setSections([]);
+  }, []);
 
   const value = useMemo<SectionRegistryApi>(
     () => ({ sections, registerSection, clearSections }),
     [sections, registerSection, clearSections],
-  )
+  );
 
   return (
     <SectionRegistryContext.Provider value={value}>
       {props.children}
     </SectionRegistryContext.Provider>
-  )
+  );
 }
 
 export function useSectionRegistry(): SectionRegistryApi {
-  const ctx = useContext(SectionRegistryContext)
-  return ctx ?? noopRegistry
+  const ctx = useContext(SectionRegistryContext);
+  return ctx ?? noopRegistry;
 }

@@ -1,14 +1,15 @@
-import { Link } from 'react-router-dom'
-import { getUnitsWithTopics } from '../content/catalog'
+import { Link } from 'react-router-dom';
+import { getUnitsWithTopics } from '../content/catalog';
 
 export default function HomePage() {
-  const units = getUnitsWithTopics()
+  const units = getUnitsWithTopics();
 
   return (
     <div className="tc-home">
       <h1 className="tc-title">Tarihche</h1>
       <p className="tc-subtitle">
-        A modular, navigable study interface: topics are pages, sections are collapsible.
+        A modular, navigable study interface: topics are pages, sections are
+        collapsible.
       </p>
 
       <div className="tc-homeUnits">
@@ -28,5 +29,5 @@ export default function HomePage() {
         ))}
       </div>
     </div>
-  )
+  );
 }

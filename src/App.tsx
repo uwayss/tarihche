@@ -1,7 +1,7 @@
-import './App.css'
-import { Navigate, Route, Routes } from 'react-router-dom'
-import TopicPage from './pages/TopicPage'
-import TocPage from './pages/TocPage'
+import './App.css';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import TopicPage from './pages/TopicPage';
+import TocPage from './pages/TocPage';
 
 export default function App() {
   return (
@@ -11,23 +11,23 @@ export default function App() {
       <Route path="/topic/:slug" element={<TopicPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
-  )
+  );
 }
 
-const lastTopicKey = 'tarihche:lastTopic'
+const lastTopicKey = 'tarihche:lastTopic';
 
 function safeGetLastTopicSlug(): string {
   try {
-    return localStorage.getItem(lastTopicKey) ?? ''
+    return localStorage.getItem(lastTopicKey) ?? '';
   } catch {
-    return ''
+    return '';
   }
 }
 
 function RestoreOrToc() {
-  const last = safeGetLastTopicSlug()
+  const last = safeGetLastTopicSlug();
   if (last) {
-    return <Navigate to={`/topic/${last}`} replace />
+    return <Navigate to={`/topic/${last}`} replace />;
   }
-  return <TocPage />
+  return <TocPage />;
 }

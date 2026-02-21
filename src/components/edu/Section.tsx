@@ -1,21 +1,21 @@
-import { useEffect, useMemo, type ReactNode } from 'react'
-import { useSectionRegistry } from '../../features/sections/SectionRegistry'
-import { slugify } from '../../utils/slugify'
+import { useEffect, useMemo, type ReactNode } from 'react';
+import { useSectionRegistry } from '../../features/sections/SectionRegistry';
+import { slugify } from '../../utils/slugify';
 
 export function Section(props: {
-  id?: string
-  title: string
-  children: ReactNode
+  id?: string;
+  title: string;
+  children: ReactNode;
 }) {
-  const { registerSection } = useSectionRegistry()
+  const { registerSection } = useSectionRegistry();
 
   const sectionId = useMemo(() => {
-    return props.id?.trim() ? props.id.trim() : slugify(props.title)
-  }, [props.id, props.title])
+    return props.id?.trim() ? props.id.trim() : slugify(props.title);
+  }, [props.id, props.title]);
 
   useEffect(() => {
-    registerSection({ id: sectionId, title: props.title })
-  }, [registerSection, sectionId, props.title])
+    registerSection({ id: sectionId, title: props.title });
+  }, [registerSection, sectionId, props.title]);
 
   return (
     <section id={sectionId} data-section-id={sectionId} className="tc-section">
@@ -25,5 +25,5 @@ export function Section(props: {
       </header>
       <div className="tc-sectionBody">{props.children}</div>
     </section>
-  )
+  );
 }

@@ -1,12 +1,17 @@
-import type { ReactNode } from 'react'
-import type { AnnotationMode } from '../annotations/types'
+import type { ReactNode } from 'react';
+import type { AnnotationMode } from '../annotations/types';
 
 function Icon(props: { children: ReactNode }) {
   return (
-    <svg className="tc-toolIcon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <svg
+      className="tc-toolIcon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+    >
       {props.children}
     </svg>
-  )
+  );
 }
 
 function IconPen() {
@@ -21,7 +26,7 @@ function IconPen() {
         strokeLinejoin="round"
       />
     </Icon>
-  )
+  );
 }
 
 function IconEraser() {
@@ -36,7 +41,7 @@ function IconEraser() {
         strokeLinejoin="round"
       />
     </Icon>
-  )
+  );
 }
 
 function IconZoomIn() {
@@ -57,7 +62,7 @@ function IconZoomIn() {
         strokeLinecap="round"
       />
     </Icon>
-  )
+  );
 }
 
 function IconZoomOut() {
@@ -78,7 +83,7 @@ function IconZoomOut() {
         strokeLinecap="round"
       />
     </Icon>
-  )
+  );
 }
 
 function IconFullscreen() {
@@ -93,7 +98,7 @@ function IconFullscreen() {
         strokeLinejoin="round"
       />
     </Icon>
-  )
+  );
 }
 
 function IconReset() {
@@ -108,18 +113,19 @@ function IconReset() {
         strokeLinejoin="round"
       />
     </Icon>
-  )
+  );
 }
 
 export function ToolSidebar(props: {
-  mode: AnnotationMode
-  setMode: (mode: AnnotationMode) => void
-  onClear: () => void
-  onZoomIn: () => void
-  onZoomOut: () => void
-  onToggleFullscreen: () => void
+  mode: AnnotationMode;
+  setMode: (mode: AnnotationMode) => void;
+  onClear: () => void;
+  onZoomIn: () => void;
+  onZoomOut: () => void;
+  onToggleFullscreen: () => void;
 }) {
-  const btn = (active: boolean) => (active ? 'tc-toolBtn tc-toolBtnActive' : 'tc-toolBtn')
+  const btn = (active: boolean) =>
+    active ? 'tc-toolBtn tc-toolBtnActive' : 'tc-toolBtn';
 
   return (
     <div className="tc-toolStack">
@@ -144,21 +150,45 @@ export function ToolSidebar(props: {
 
       <div className="tc-toolDivider" role="separator" />
 
-      <button type="button" className="tc-toolBtn" onClick={props.onZoomIn} aria-label="Yakınlaştır" title="Yakınlaştır">
+      <button
+        type="button"
+        className="tc-toolBtn"
+        onClick={props.onZoomIn}
+        aria-label="Yakınlaştır"
+        title="Yakınlaştır"
+      >
         <IconZoomIn />
       </button>
-      <button type="button" className="tc-toolBtn" onClick={props.onZoomOut} aria-label="Uzaklaştır" title="Uzaklaştır">
+      <button
+        type="button"
+        className="tc-toolBtn"
+        onClick={props.onZoomOut}
+        aria-label="Uzaklaştır"
+        title="Uzaklaştır"
+      >
         <IconZoomOut />
       </button>
 
       <div className="tc-toolDivider" role="separator" />
 
-      <button type="button" className="tc-toolBtn" onClick={props.onToggleFullscreen} aria-label="Tam ekran" title="Tam ekran">
+      <button
+        type="button"
+        className="tc-toolBtn"
+        onClick={props.onToggleFullscreen}
+        aria-label="Tam ekran"
+        title="Tam ekran"
+      >
         <IconFullscreen />
       </button>
-      <button type="button" className="tc-toolBtn" onClick={props.onClear} aria-label="Temizle" title="Temizle">
+      <button
+        type="button"
+        className="tc-toolBtn"
+        onClick={props.onClear}
+        aria-label="Temizle"
+        title="Temizle"
+      >
         <IconReset />
       </button>
     </div>
-  )
+  );
 }

@@ -1,10 +1,10 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from 'react';
 
 export function CauseEffect(props: {
-  causeTitle?: string
-  effectTitle?: string
-  cause: ReactNode
-  effect: ReactNode
+  causeTitle?: string;
+  effectTitle?: string;
+  cause: ReactNode;
+  effect: ReactNode;
 }) {
   return (
     <div className="tc-causeEffect">
@@ -13,9 +13,11 @@ export function CauseEffect(props: {
         <div className="tc-causeEffectBody">{props.cause}</div>
       </div>
       <div className="tc-causeEffectCol">
-        <div className="tc-causeEffectTitle">{props.effectTitle ?? 'Effect'}</div>
+        <div className="tc-causeEffectTitle">
+          {props.effectTitle ?? 'Effect'}
+        </div>
         <div className="tc-causeEffectBody">{props.effect}</div>
       </div>
     </div>
-  )
+  );
 }

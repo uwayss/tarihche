@@ -1,21 +1,33 @@
-import { MDXProvider } from '@mdx-js/react'
-import { useEffect, useMemo, useRef, useState, type ComponentType } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { mdxComponents } from '../components/mdx/mdxComponents'
-import { getTopicBySlug, getTopicNeighbors } from '../content/catalog'
-import { PenLayer } from '../features/annotations/PenLayer'
-import { loadTopicAnnotations, saveTopicAnnotations } from '../features/annotations/storage'
-import type { AnnotationMode, TopicAnnotations } from '../features/annotations/types'
-import { toggleFullscreen } from '../features/reader/fullscreen'
-import { ToolSidebar } from '../features/reader/ToolSidebar'
-import { useZoom } from '../features/reader/useZoom'
-import { ReaderLayout } from '../layout/ReaderLayout'
+import { MDXProvider } from '@mdx-js/react';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ComponentType,
+} from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { mdxComponents } from '../components/mdx/mdxComponents';
+import { getTopicBySlug, getTopicNeighbors } from '../content/catalog';
+import { PenLayer } from '../features/annotations/PenLayer';
+import {
+  loadTopicAnnotations,
+  saveTopicAnnotations,
+} from '../features/annotations/storage';
+import type {
+  AnnotationMode,
+  TopicAnnotations,
+} from '../features/annotations/types';
+import { toggleFullscreen } from '../features/reader/fullscreen';
+import { ToolSidebar } from '../features/reader/ToolSidebar';
+import { useZoom } from '../features/reader/useZoom';
+import { ReaderLayout } from '../layout/ReaderLayout';
 
-const lastTopicKey = 'tarihche:lastTopic'
+const lastTopicKey = 'tarihche:lastTopic';
 
 export default function TopicPage() {
-  const { slug = '' } = useParams()
-  const topic = useMemo(() => getTopicBySlug(slug), [slug])
+  const { slug = '' } = useParams();
+  const topic = useMemo(() => getTopicBySlug(slug), [slug]);
 
   if (!topic) {
     return (
@@ -25,74 +37,90 @@ export default function TopicPage() {
           Başlangıca dön
         </Link>
       </div>
-    )
+    );
   }
 
-  return <TopicPageInner key={topic.slug} topicSlug={topic.slug} topicTitle={topic.title} load={topic.load} />
+  return (
+    <TopicPageInner
+      key={topic.slug}
+      topicSlug={topic.slug}
+      topicTitle={topic.title}
+      load={topic.load}
+    />
+  );
 }
 
 function TopicPageInner(props: {
-  topicSlug: string
-  topicTitle: string
-  load: () => Promise<{ default: ComponentType<{ components?: Record<string, unknown> }> }>
+  topicSlug: string;
+  topicTitle: string;
+  load: () => Promise<{
+    default: ComponentType<{ components?: Record<string, unknown> }>;
+  }>;
 }) {
-  const topic = props
+  const topic = props;
 
-  const [Mdx, setMdx] = useState<null | ComponentType<{ components?: Record<string, unknown> }>>(null)
+  const [Mdx, setMdx] = useState<null | ComponentType<{
+    components?: Record<string, unknown>;
+  }>>(null);
 
-  const articleRef = useRef<HTMLElement | null>(null)
-  const contentAreaRef = useRef<HTMLDivElement | null>(null)
-  const articleWrapRef = useRef<HTMLDivElement | null>(null)
-  const zoomWrapRef = useRef<HTMLDivElement | null>(null)
+  const articleRef = useRef<HTMLElement | null>(null);
+  const contentAreaRef = useRef<HTMLDivElement | null>(null);
+  const articleWrapRef = useRef<HTMLDivElement | null>(null);
+  const zoomWrapRef = useRef<HTMLDivElement | null>(null);
 
-  const [mode, setMode] = useState<AnnotationMode>('off')
-  const [annotations, setAnnotations] = useState<TopicAnnotations>(() => loadTopicAnnotations(topic.topicSlug))
+  const [mode, setMode] = useState<AnnotationMode>('off');
+  const [annotations, setAnnotations] = useState<TopicAnnotations>(() =>
+    loadTopicAnnotations(topic.topicSlug),
+  );
 
-  const { zoom, zoomIn, zoomOut } = useZoom()
-  const neighbors = useMemo(() => getTopicNeighbors(topic.topicSlug), [topic.topicSlug])
+  const { zoom, zoomIn, zoomOut } = useZoom();
+  const neighbors = useMemo(
+    () => getTopicNeighbors(topic.topicSlug),
+    [topic.topicSlug],
+  );
 
   useEffect(() => {
-    let cancelled = false
+    let cancelled = false;
     topic
       .load()
       .then((mod) => {
-        if (cancelled) return
-        setMdx(() => mod.default)
+        if (cancelled) return;
+        setMdx(() => mod.default);
       })
       .catch(() => {
-        if (cancelled) return
-        setMdx(() => null)
-      })
+        if (cancelled) return;
+        setMdx(() => null);
+      });
 
     return () => {
-      cancelled = true
-    }
-  }, [topic])
+      cancelled = true;
+    };
+  }, [topic]);
 
   useEffect(() => {
     try {
-      localStorage.setItem(lastTopicKey, topic.topicSlug)
+      localStorage.setItem(lastTopicKey, topic.topicSlug);
     } catch {
       // ignore
     }
-  }, [topic.topicSlug])
+  }, [topic.topicSlug]);
 
   useEffect(() => {
-    saveTopicAnnotations(topic.topicSlug, annotations)
-  }, [topic, annotations])
+    saveTopicAnnotations(topic.topicSlug, annotations);
+  }, [topic, annotations]);
 
   const onToggleFullscreen = async () => {
     try {
-      await toggleFullscreen()
+      await toggleFullscreen();
     } catch {
       // ignore
     }
-  }
+  };
 
   const clear = () => {
-    setAnnotations({ strokes: [] })
-    setMode('off')
-  }
+    setAnnotations({ strokes: [] });
+    setMode('off');
+  };
 
   return (
     <ReaderLayout
@@ -106,10 +134,14 @@ function TopicPageInner(props: {
           <div className="tc-topbarCenter">
             <Link
               to={neighbors.prev ? `/topic/${neighbors.prev.slug}` : '#'}
-              className={neighbors.prev ? 'tc-topbarNavBtn' : 'tc-topbarNavBtn tc-topbarNavBtnDisabled'}
+              className={
+                neighbors.prev
+                  ? 'tc-topbarNavBtn'
+                  : 'tc-topbarNavBtn tc-topbarNavBtnDisabled'
+              }
               aria-disabled={!neighbors.prev}
               onClick={(e) => {
-                if (!neighbors.prev) e.preventDefault()
+                if (!neighbors.prev) e.preventDefault();
               }}
             >
               Önceki
@@ -119,10 +151,14 @@ function TopicPageInner(props: {
             </div>
             <Link
               to={neighbors.next ? `/topic/${neighbors.next.slug}` : '#'}
-              className={neighbors.next ? 'tc-topbarNavBtn' : 'tc-topbarNavBtn tc-topbarNavBtnDisabled'}
+              className={
+                neighbors.next
+                  ? 'tc-topbarNavBtn'
+                  : 'tc-topbarNavBtn tc-topbarNavBtnDisabled'
+              }
               aria-disabled={!neighbors.next}
               onClick={(e) => {
-                if (!neighbors.next) e.preventDefault()
+                if (!neighbors.next) e.preventDefault();
               }}
             >
               Sonraki
@@ -144,7 +180,11 @@ function TopicPageInner(props: {
     >
       <div
         ref={contentAreaRef}
-        className={mode === 'pen' || mode === 'erase' ? 'tc-content tc-contentAnnotating' : 'tc-content'}
+        className={
+          mode === 'pen' || mode === 'erase'
+            ? 'tc-content tc-contentAnnotating'
+            : 'tc-content'
+        }
       >
         <div ref={zoomWrapRef} className="tc-zoomWrap">
           <div ref={articleWrapRef} className="tc-articleWrap">
@@ -160,10 +200,12 @@ function TopicPageInner(props: {
             mode={mode}
             zoom={zoom}
             strokes={annotations.strokes}
-            setStrokes={(strokes) => setAnnotations((prev) => ({ ...prev, strokes }))}
+            setStrokes={(strokes) =>
+              setAnnotations((prev) => ({ ...prev, strokes }))
+            }
           />
         </div>
       </div>
     </ReaderLayout>
-  )
+  );
 }
