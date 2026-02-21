@@ -20,11 +20,32 @@ export type Topic = {
 
 export const units: Unit[] = [
   { id: 'getting-started', title: 'Başlangıç', order: 1 },
-  { id: 'unite-1', title: '1. ÜNİTE: DEĞİŞEN DÜNYA DENGELERİ KARŞISINDA OSMANLI SİYASETİ (1595-1774)', order: 2 },
-  { id: 'unite-2', title: '2. ÜNİTE: DEĞİŞİM ÇAĞINDA AVRUPA VE OSMANLI', order: 3 },
-  { id: 'unite-3', title: '3. ÜNİTE: DEVRİMLER ÇAĞINDA DEĞİŞEN DEVLET-TOPLUM İLİŞKİLERİ', order: 4 },
-  { id: 'unite-4', title: '4. ÜNİTE: ULUSLARARASI İLİŞKİLERDE DENGE STRATEJİSİ (1774-1914)', order: 5 },
-  { id: 'unite-5', title: '5. ÜNİTE: XIX VE XX. YÜZYILDA DEĞİŞEN SOSYOEKONOMİK HAYAT', order: 6 },
+  {
+    id: 'unite-1',
+    title:
+      '1. ÜNİTE: DEĞİŞEN DÜNYA DENGELERİ KARŞISINDA OSMANLI SİYASETİ (1595-1774)',
+    order: 2,
+  },
+  {
+    id: 'unite-2',
+    title: '2. ÜNİTE: DEĞİŞİM ÇAĞINDA AVRUPA VE OSMANLI',
+    order: 3,
+  },
+  {
+    id: 'unite-3',
+    title: '3. ÜNİTE: DEVRİMLER ÇAĞINDA DEĞİŞEN DEVLET-TOPLUM İLİŞKİLERİ',
+    order: 4,
+  },
+  {
+    id: 'unite-4',
+    title: '4. ÜNİTE: ULUSLARARASI İLİŞKİLERDE DENGE STRATEJİSİ (1774-1914)',
+    order: 5,
+  },
+  {
+    id: 'unite-5',
+    title: '5. ÜNİTE: XIX VE XX. YÜZYILDA DEĞİŞEN SOSYOEKONOMİK HAYAT',
+    order: 6,
+  },
 ];
 
 export const topics: Topic[] = [
@@ -66,7 +87,8 @@ export const topics: Topic[] = [
   },
   {
     slug: '18-yuzyil-osmanli-siyasi-gelismeleri-2',
-    title: '18. Yüzyıl Osmanlı Devleti Siyasi Gelişmeleri (İran, Rusya ve Küçük Kaynarca)',
+    title:
+      '18. Yüzyıl Osmanlı Devleti Siyasi Gelişmeleri (İran, Rusya ve Küçük Kaynarca)',
     unitId: 'unite-1',
     order: 4,
     load: () => import('./topics/18-yuzyil-osmanli-siyasi-gelismeleri-2.mdx'),
@@ -84,14 +106,16 @@ export const topics: Topic[] = [
     title: "Avrupa'daki Gelişmeler Karşısında Osmanlı Devleti",
     unitId: 'unite-2',
     order: 2,
-    load: () => import('./topics/avrupadaki-gelismelerin-osmanliya-etkileri.mdx'),
+    load: () =>
+      import('./topics/avrupadaki-gelismelerin-osmanliya-etkileri.mdx'),
   },
   {
     slug: '17-ve-18-yuzyil-osmanli-ic-gelismeleri-ve-isyanlar',
     title: "17. Yüzyılda Osmanlı Devleti'nde Çözülme Belirtileri",
     unitId: 'unite-2',
     order: 3,
-    load: () => import('./topics/17-ve-18-yuzyil-osmanli-ic-gelismeleri-ve-isyanlar.mdx'),
+    load: () =>
+      import('./topics/17-ve-18-yuzyil-osmanli-ic-gelismeleri-ve-isyanlar.mdx'),
   },
   // ÜNİTE 3
   {
@@ -156,7 +180,8 @@ export const topics: Topic[] = [
     title: '1774-1914 Yılları Arası Önemli Siyasi Gelişmeler',
     unitId: 'unite-4',
     order: 1,
-    load: () => import('./topics/19-yuzyil-osmanli-avrupa-siyasi-iliskileri.mdx'),
+    load: () =>
+      import('./topics/19-yuzyil-osmanli-avrupa-siyasi-iliskileri.mdx'),
   },
   {
     slug: 'misir-ve-bogazlar-sorunlari',
@@ -192,7 +217,8 @@ export const topics: Topic[] = [
     title: 'Sanayi Devrimi Öncesi Osmanlı Ekonomisi',
     unitId: 'unite-5',
     order: 1,
-    load: () => import('./topics/osmanli-ekonomisi-ve-sanayilesme-cabalari.mdx'),
+    load: () =>
+      import('./topics/osmanli-ekonomisi-ve-sanayilesme-cabalari.mdx'),
   },
   {
     slug: 'osmanli-dis-borclanma-ve-milli-iktisat',
@@ -213,7 +239,8 @@ export const topics: Topic[] = [
     title: 'Sanayileşme ve Kentleşme',
     unitId: 'unite-5',
     order: 4,
-    load: () => import('./topics/modernlesme-sehirlesme-ve-salgin-hastaliklar.mdx'),
+    load: () =>
+      import('./topics/modernlesme-sehirlesme-ve-salgin-hastaliklar.mdx'),
   },
   {
     slug: 'osmanli-basin-ve-kamuoyu',
