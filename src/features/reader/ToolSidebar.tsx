@@ -4,7 +4,7 @@ import type { AnnotationMode } from '../annotations/types';
 function Icon(props: { children: ReactNode }) {
   return (
     <svg
-      className="tc-toolIcon"
+      className="w-8 h-8"
       viewBox="0 0 24 24"
       aria-hidden="true"
       focusable="false"
@@ -125,10 +125,14 @@ export function ToolSidebar(props: {
   onToggleFullscreen: () => void;
 }) {
   const btn = (active: boolean) =>
-    active ? 'tc-toolBtn tc-toolBtnActive' : 'tc-toolBtn';
+    `w-16 h-16 flex items-center justify-center rounded-2xl transition-all duration-200 active:scale-95 ${
+      active
+        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
+        : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 shadow-sm border border-slate-200'
+    }`;
 
   return (
-    <div className="tc-toolStack">
+    <div className="flex flex-col gap-4 w-full px-2">
       <button
         type="button"
         className={btn(props.mode === 'pen')}
@@ -148,11 +152,11 @@ export function ToolSidebar(props: {
         <IconEraser />
       </button>
 
-      <div className="tc-toolDivider" role="separator" />
+      <div className="w-12 h-px bg-slate-200 mx-auto my-2" role="separator" />
 
       <button
         type="button"
-        className="tc-toolBtn"
+        className={btn(false)}
         onClick={props.onZoomIn}
         aria-label="Yakınlaştır"
         title="Yakınlaştır"
@@ -161,7 +165,7 @@ export function ToolSidebar(props: {
       </button>
       <button
         type="button"
-        className="tc-toolBtn"
+        className={btn(false)}
         onClick={props.onZoomOut}
         aria-label="Uzaklaştır"
         title="Uzaklaştır"
@@ -169,11 +173,11 @@ export function ToolSidebar(props: {
         <IconZoomOut />
       </button>
 
-      <div className="tc-toolDivider" role="separator" />
+      <div className="w-12 h-px bg-slate-200 mx-auto my-2" role="separator" />
 
       <button
         type="button"
-        className="tc-toolBtn"
+        className={btn(false)}
         onClick={props.onToggleFullscreen}
         aria-label="Tam ekran"
         title="Tam ekran"
@@ -182,7 +186,7 @@ export function ToolSidebar(props: {
       </button>
       <button
         type="button"
-        className="tc-toolBtn"
+        className={btn(false)}
         onClick={props.onClear}
         aria-label="Temizle"
         title="Temizle"

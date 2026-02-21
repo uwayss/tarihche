@@ -130,9 +130,9 @@ export function PenLayer(props: {
 
   return (
     <svg
-      className={
-        pointerEnabled ? 'tc-penLayer tc-penLayerActive' : 'tc-penLayer'
-      }
+      className={`absolute inset-0 w-full h-full z-10 ${
+        pointerEnabled ? 'pointer-events-auto cursor-crosshair' : 'pointer-events-none'
+      }`}
       width={size.width}
       height={size.height}
       viewBox={`0 0 ${size.width} ${size.height}`}
@@ -150,7 +150,7 @@ export function PenLayer(props: {
           strokeWidth={p.width}
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="tc-penStroke"
+          className="text-indigo-600 drop-shadow-sm"
         />
       ))}
     </svg>

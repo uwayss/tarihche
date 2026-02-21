@@ -18,12 +18,12 @@ export function Section(props: {
   }, [registerSection, sectionId, props.title]);
 
   return (
-    <section id={sectionId} data-section-id={sectionId} className="tc-section">
-      <header className="tc-sectionHeader">
-        <h2 className="tc-sectionTitle">{props.title}</h2>
-        <div className="tc-hairline" aria-hidden="true" />
+    <section id={sectionId} data-section-id={sectionId} className="my-16 scroll-mt-24">
+      <header className="mb-8 flex items-center gap-6">
+        <h2 className="text-4xl font-black text-slate-900 tracking-tight m-0">{props.title}</h2>
+        <div className="flex-1 h-1 bg-slate-100 rounded-full" aria-hidden="true" />
       </header>
-      <div className="tc-sectionBody">{props.children}</div>
+      <div className="prose prose-slate prose-lg max-w-none">{props.children}</div>
     </section>
   );
 }

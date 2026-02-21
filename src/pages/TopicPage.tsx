@@ -125,46 +125,47 @@ function TopicPageInner(props: {
   return (
     <ReaderLayout
       topBar={
-        <div className="tc-topbarInner">
-          <div className="tc-topbarLeft">
-            <Link to="/toc" className="tc-topbarBrand" aria-label="İçindekiler">
+        <div className="flex items-center justify-between w-full h-full">
+          <div className="flex-none w-48">
+            <Link to="/toc" className="flex items-center gap-3 text-2xl font-black tracking-tighter text-slate-900 hover:text-indigo-700 transition-colors font-serif" aria-label="İçindekiler">
+              <span className="w-8 h-8 bg-slate-900 text-white rounded-sm flex items-center justify-center text-lg">T</span>
               Tarihche
             </Link>
           </div>
-          <div className="tc-topbarCenter">
+          <div className="flex-1 flex items-center justify-center gap-6">
             <Link
               to={neighbors.prev ? `/topic/${neighbors.prev.slug}` : '#'}
-              className={
+              className={`px-4 py-2 rounded-lg font-bold transition-colors font-serif ${
                 neighbors.prev
-                  ? 'tc-topbarNavBtn'
-                  : 'tc-topbarNavBtn tc-topbarNavBtnDisabled'
-              }
+                  ? 'text-slate-600 hover:bg-slate-200 hover:text-slate-900'
+                  : 'text-slate-300 cursor-not-allowed'
+              }`}
               aria-disabled={!neighbors.prev}
               onClick={(e) => {
                 if (!neighbors.prev) e.preventDefault();
               }}
             >
-              Önceki
+              ← Önceki
             </Link>
-            <div className="tc-topbarTitle" title={topic.topicTitle}>
+            <div className="text-xl font-bold text-slate-800 truncate max-w-md font-serif border-b-2 border-slate-300 pb-1" title={topic.topicTitle}>
               {topic.topicTitle}
             </div>
             <Link
               to={neighbors.next ? `/topic/${neighbors.next.slug}` : '#'}
-              className={
+              className={`px-4 py-2 rounded-lg font-bold transition-colors font-serif ${
                 neighbors.next
-                  ? 'tc-topbarNavBtn'
-                  : 'tc-topbarNavBtn tc-topbarNavBtnDisabled'
-              }
+                  ? 'text-slate-600 hover:bg-slate-200 hover:text-slate-900'
+                  : 'text-slate-300 cursor-not-allowed'
+              }`}
               aria-disabled={!neighbors.next}
               onClick={(e) => {
                 if (!neighbors.next) e.preventDefault();
               }}
             >
-              Sonraki
+              Sonraki →
             </Link>
           </div>
-          <div className="tc-topbarRight" />
+          <div className="flex-none w-48" />
         </div>
       }
       toolBar={
@@ -180,17 +181,19 @@ function TopicPageInner(props: {
     >
       <div
         ref={contentAreaRef}
-        className={
-          mode === 'pen' || mode === 'erase'
-            ? 'tc-content tc-contentAnnotating'
-            : 'tc-content'
-        }
+        className={`relative w-full h-full overflow-y-auto overflow-x-hidden ${
+          mode === 'pen' || mode === 'erase' ? 'select-none' : ''
+        }`}
       >
-        <div ref={zoomWrapRef} className="tc-zoomWrap">
-          <div ref={articleWrapRef} className="tc-articleWrap">
-            <article ref={articleRef} className="tc-article">
+        <div 
+          ref={zoomWrapRef} 
+          className="relative min-h-full w-full flex justify-center py-16 px-4 sm:px-8 md:px-16 transition-transform duration-200 origin-top"
+          style={{ transform: `scale(${zoom})` }}
+        >
+          <div ref={articleWrapRef} className="w-full max-w-4xl bg-[#fffdfa] rounded-sm shadow-xl border border-slate-200 p-12 md:p-20 relative z-0 before:absolute before:inset-0 before:border-[12px] before:border-double before:border-slate-100/50 before:pointer-events-none before:rounded-sm">
+            <article ref={articleRef} className="prose prose-slate prose-lg max-w-none">
               <MDXProvider components={mdxComponents}>
-                {Mdx ? <Mdx components={mdxComponents} /> : <p>Yükleniyor…</p>}
+                {Mdx ? <Mdx components={mdxComponents} /> : <p className="text-slate-500 italic">Yükleniyor…</p>}
               </MDXProvider>
             </article>
           </div>
