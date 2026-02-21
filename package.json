@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "checks": "pnpm run lint && pnpm run build",
+    "checks": "pnpm run format:check && pnpm run lint && pnpm run build",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
