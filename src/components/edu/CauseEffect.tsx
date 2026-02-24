@@ -1,4 +1,42 @@
-import type { ReactNode } from 'react';
+import React, { type ReactNode } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+
+function tryExtractPlainText(node: ReactNode): string | null {
+  if (node == null || typeof node === 'boolean') return '';
+  if (typeof node === 'string' || typeof node === 'number') return String(node);
+
+  if (Array.isArray(node)) {
+    const parts: string[] = [];
+    for (const child of node) {
+      const part = tryExtractPlainText(child);
+      if (part == null) return null;
+      parts.push(part);
+    }
+    return parts.join('\n');
+  }
+
+  if (React.isValidElement(node) && node.type === React.Fragment) {
+    const element = node as React.ReactElement<{ children?: ReactNode }>;
+    return tryExtractPlainText(element.props.children);
+  }
+
+  return null;
+}
+
+function MarkdownOrNode(props: { content: ReactNode }) {
+  const extracted = tryExtractPlainText(props.content);
+  if (extracted == null) return <>{props.content}</>;
+
+  let markdown = extracted.replace(/\r\n?/g, '\n').trim();
+  if (!markdown) return null;
+
+  if (/^[-*]\s+/.test(markdown)) {
+    markdown = markdown.replace(/([.!?:;)])\s+-\s+/g, '$1\n- ');
+  }
+
+  return <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>;
+}
 
 export function CauseEffect(props: {
   causeTitle?: string;
@@ -25,7 +63,9 @@ export function CauseEffect(props: {
           </svg>
           {props.causeTitle ?? 'Neden'}
         </div>
-        <div className="prose prose-slate max-w-none">{props.cause}</div>
+        <div className="prose prose-slate max-w-none">
+          <MarkdownOrNode content={props.cause} />
+        </div>
       </div>
       <div className="flex flex-col bg-white rounded-xl p-5 border-t-4 border-[var(--color-semantic-economy)] shadow-sm relative">
         <div className="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 w-6 h-6 items-center justify-center text-slate-400">
@@ -59,7 +99,9 @@ export function CauseEffect(props: {
           </svg>
           {props.effectTitle ?? 'Sonuç'}
         </div>
-        <div className="prose prose-slate max-w-none">{props.effect}</div>
+        <div className="prose prose-slate max-w-none">
+          <MarkdownOrNode content={props.effect} />
+        </div>
       </div>
     </div>
   );

@@ -50,11 +50,11 @@ export const units: Unit[] = [
 
 export const topics: Topic[] = [
   {
-    slug: 'welcome',
-    title: "Tarihche'ye Hoş Geldiniz",
+    slug: 'about-tarihche',
+    title: 'Tarihche Hakkında',
     unitId: 'getting-started',
     order: 1,
-    load: () => import('./topics/welcome.mdx'),
+    load: () => import('./topics/about-tarihche.mdx'),
   },
   {
     slug: 'how-to-use',
@@ -252,7 +252,8 @@ export const topics: Topic[] = [
 ];
 
 export function getTopicBySlug(slug: string): Topic | undefined {
-  return topics.find((t) => t.slug === slug);
+  const normalized = slug === 'welcome' ? 'about-tarihche' : slug;
+  return topics.find((t) => t.slug === normalized);
 }
 
 export function getOrderedTopics(): Topic[] {

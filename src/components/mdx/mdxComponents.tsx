@@ -3,6 +3,7 @@ import { CauseEffect } from '../edu/CauseEffect';
 import { KeyTerm } from '../edu/KeyTerm';
 import { Media } from '../edu/Media';
 import { NoteBox } from '../edu/NoteBox';
+import { ProfileCard } from '../edu/ProfileCard';
 import { Section } from '../edu/Section';
 import { Timeline, TimelineItem } from '../edu/Timeline';
 
@@ -14,6 +15,7 @@ export const mdxComponents = {
   Timeline,
   TimelineItem,
   Media,
+  ProfileCard,
   h1: (props: React.ComponentProps<'h1'>) => (
     <h1
       className="text-5xl font-black text-slate-900 mt-12 mb-8 tracking-tight font-serif"
